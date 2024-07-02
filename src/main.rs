@@ -1,6 +1,8 @@
 mod utils;
+mod interface;
 
 fn main() {
-    utils::Echo
-    println!("Hello, world!");
+    let interface = interface::Interface{};
+
+    interface::Interface::call_command("Echo aksdjsada sajdalksjd ask | sad")
 }
