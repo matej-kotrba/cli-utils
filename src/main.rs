@@ -1,8 +1,9 @@
+use interface::Interface;
+
 mod utils;
 mod interface;
 
 fn main() {
-    let interface = interface::Interface{};
-
-    interface::Interface::call_command("Echo aksdjsada sajdalksjd ask | sad")
+    // let interface = interface::Interface{};
+    Interface::new();
 }

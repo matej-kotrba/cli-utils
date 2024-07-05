@@ -1,5 +1,8 @@
 mod echo;
 
+
+pub const COMMANDS: [&str; 1] = ["echo"];
+
 pub enum Commands {
   Echo,
   None
