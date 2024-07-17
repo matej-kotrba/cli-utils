@@ -19,4 +19,14 @@ impl Commands {
       }
     }
   }
+  pub fn run_command(command: Commands) {
+    match command {
+      Commands::Echo => {
+        
+      }
+      Commands::None => {
+        
+      }
+    }
+  }
 }

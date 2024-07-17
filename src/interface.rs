@@ -22,7 +22,20 @@ impl Interface {
   const OPERATORS: [char; 2] = ['|', '&'];
   pub fn new() {
     let line =  Self::get_input();
-    let parsedData: Vec<ParsedData> = Self::parse_line(&line);
+    let parsed_data: Vec<ParsedData> = Self::parse_line(&line);
+    for data in parsed_data {
+      match data.data_type {
+        ParsedDataType::Command => {
+          Self::call_command(data);
+        }
+        ParsedDataType::Operator => {
+
+        }
+        ParsedDataType::Value => {
+
+        }
+      }
+    }
   }
   fn get_input() -> String {
     println!("Insert your command here:\n");
@@ -51,34 +64,29 @@ impl Interface {
     let mut line_parts_data: Vec<ParsedData> = Vec::new();
 
     for part in split {
-      if (COMMANDS.contains(&part)) {
-        line_parts_data.push(ParsedData { data_type: ParsedDataType::Command, value: String::from(part) });
-        continue;
+      let data_type: ParsedDataType;
+
+      if COMMANDS.contains(&part) {
+        data_type = ParsedDataType::Command;
       }
-      else if (part.len() == 1 && Interface::OPERATORS.contains(&part.chars().nth(0).unwrap())) {
-        line_parts_data.push(ParsedData { data_type: ParsedDataType::Operator, value: String::from(part) });
-        continue;
+      else if part.len() == 1 && Interface::OPERATORS.contains(&part.chars().nth(0).unwrap()) {
+        data_type = ParsedDataType::Operator;
       }
       else {
-        line_parts_data.push(ParsedData { data_type: ParsedDataType::Value, value: String::from(part) });
-        continue;
+        data_type = ParsedDataType::Value;
       }
+      
+      line_parts_data.push(ParsedData { data_type, value: String::from(part) });
     }
 
     return line_parts_data;
   }
+  // TODO: Můžu přidat nějak aby data co zde byly poslané měli vždy data_type Command?
   fn call_command(data: ParsedData) {
     if data.data_type != ParsedDataType::Command {
       return;
     }
-    let command = Commands::from_str(&data.value);
-    match command {
-      Commands::Echo => {
-        println!("ECHOOOO")
-      }
-      Commands::None => {
-
-      }
-    }
+    let command: Commands = Commands::from_str(&data.value);
+    Commands::run_command(command);
   }
 }
